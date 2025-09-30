@@ -1,0 +1,22 @@
+server:
+  port: 8888 # Port par défaut pour Config Server
+
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: file:///./config-repo # Pointe vers le dossier 'config-repo' local
+          default-label: main
+          search-paths: /{application} # Permet des fichiers de config comme 'service-utilisateurs.yml'
+          clone-on-start: true
+    # Configuration client Eureka pour s'enregistrer auprès du serveur Eureka
+  application:
+    name: config-server # Nom du service pour Eureka
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server:8761/eureka/ # URL du serveur Eureka (via Docker DNS)
+  instance:
+    hostname: config-server # Nom de l'hôte dans Eureka (via Docker DNS)

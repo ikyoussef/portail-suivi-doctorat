@@ -1,0 +1,26 @@
+server:
+  port: 8080 # Port par défaut pour l'API Gateway
+
+spring:
+  application:
+    name: api-gateway # Nom du service pour Eureka
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true # Active la découverte de services via Eureka
+          lower-case-service-id: true # Convertit les IDs de service en minuscule
+      routes:
+        - id: service-utilisateurs # Nom de la route
+          uri: lb://service-utilisateurs # lb pour load-balancer, utilise Eureka
+          predicates:
+            - Path=/api/users/** # Tous les appels vers /api/users/** iront vers service-utilisateurs
+  config:
+    import: "optional:configserver:" # Pour utiliser le Config Server (via bootstrap.yml)
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server:8761/eureka/ # URL du serveur Eureka (via Docker DNS)
+  instance:
+    hostname: api-gateway # Nom de l'hôte dans Eureka (via Docker DNS)

@@ -1,0 +1,10 @@
+server:
+  port: 8761 # Port par défaut pour Eureka
+
+eureka:
+  client:
+    register-with-eureka: false # Ce n'est pas un client, il ne s'enregistre pas lui-même
+    fetch-registry: false       # Il ne récupère pas de registre non plus
+  server:
+    enable-self-preservation: true # Recommandé pour la production, mais peut être désactivé pour le dev
+    eviction-interval-timer-in-ms: 5000 # Fréquence de vérification des instances

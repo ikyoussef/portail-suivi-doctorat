@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: config-server # Le Config Server doit être démarré et enregistré dans Eureka
+      uri: http://config-server:8888 # Fallback direct si Eureka n'est pas encore prêt (via Docker DNS)

@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: service-utilisateurs
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: config-server # Le Config Server doit être démarré et enregistré dans Eureka
+      uri: http://config-server:8888 # Fallback direct si Eureka n'est pas encore prêt (via Docker DNS)
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server:8761/eureka/ # URL du serveur Eureka (via Docker DNS)
+  instance:
+    hostname: service-utilisateurs # Nom de l'hôte dans Eureka (via Docker DNS)

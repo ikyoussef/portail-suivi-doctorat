@@ -1,0 +1,29 @@
+server:
+  port: 8081 # Port pour service-utilisateurs (sera routé via Gateway sur 8080)
+
+spring:
+  datasource:
+    url: jdbc:postgresql://postgres-db:5432/user_db # Nom du service DB dans Docker Compose
+    username: user
+    password: password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update # Ou create, create-drop pour le développement, mais update pour garder les données
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    defer-datasource-initialization: true # Pour s'assurer que Hibernate initialise la DB après la source de données
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8080/realms/master/protocol/openid-connect/certs # Exemple si Keycloak est utilisé, sinon JWT properties ci-dessous
+
+# Propriétés pour JWT (si pas d'OAuth2 provider externe comme Keycloak)
+application:
+  security:
+    jwt:
+      secret: 556A586E3272357538782F413F4428472B4B6250655368566D59713374367739 # Clé secrète de 256 bits (générez la vôtre)
+      expiration-in-ms: 3600000 # 1 heure
